@@ -1,0 +1,73 @@
+plugins {
+	id 'java'
+	id 'jacoco'
+}
+
+group = 'com.github.jimbovm'
+version = 0.0
+
+repositories {
+	mavenCentral()
+	gradlePluginPortal()
+}
+
+dependencies {
+	// Logging
+	implementation 'org.apache.logging.log4j:log4j-api:2.17.+'
+	implementation 'org.apache.logging.log4j:log4j-core:2.17.+'
+	// XML serialization
+	implementation 'org.glassfish.jaxb:jaxb-runtime:3.+'
+	implementation 'jakarta.xml.bind:jakarta.xml.bind-api:3.+'
+	// Validation
+	implementation 'jakarta.validation:jakarta.validation-api:3.+'
+	implementation 'org.hibernate.validator:hibernate-validator:8.+'
+	implementation 'org.glassfish:jakarta.el:5.+'
+	// Helpers
+	implementation 'org.apache.commons:commons-lang3:3.+'
+	compileOnly 'org.projectlombok:lombok:1.+'
+	annotationProcessor 'org.projectlombok:lombok:1.+'
+	
+	testCompileOnly 'org.projectlombok:lombok:1.18.32'
+	testAnnotationProcessor 'org.projectlombok:lombok:1.18.32'
+	// Testing
+	testImplementation 'org.junit.jupiter:junit-jupiter:5.+'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	testImplementation 'org.glassfish:jakarta.el:5.+'
+}
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(17)
+	}
+}
+
+task fatJar(type: Jar) {
+    archiveBaseName = 'isobel-fat'
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
+javadoc {
+	source = sourceSets.main.allJava
+	// Generate HTML5 Javadocs
+	options.addBooleanOption('html5', true)
+	// Include overview content
+	options.overview = 'src/main/java/overview.html'
+}
+
+test {
+	// Show verbose test output
+	testLogging {
+		events = ['passed', 'failed', 'skipped']
+		showStandardStreams = true
+		exceptionFormat = 'full'
+	}
+	// Always create JaCoCo reports
+	finalizedBy jacocoTestReport
+}
+
+tasks.named('test') {
+	// Use JUnit Platform for unit tests.
+	useJUnitPlatform()
+}
