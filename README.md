@@ -6,7 +6,7 @@ It translates data between the bytecode format used by the original game and a h
 
 Isobel provides the core functionality that's required for an editor, abstracting out the original game's area data behind an intermediate object format that can be more easily edited and serialized to XML, and translated to and from bytecode as required.
 
-Isobel is open source, licensed under a public domain-equivalent MIT-0 licence (see `COPYING.md` for terms) and implemented in Java, so will run anywhere.
+Isobel is open source, licensed under a public domain-equivalent MIT-0 licence (see `LICENCE.md` for terms) and implemented in Java, so will run anywhere.
 
 ## Build instructions
 
