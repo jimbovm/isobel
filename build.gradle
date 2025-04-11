@@ -1,14 +1,27 @@
 plugins {
 	id 'java'
 	id 'jacoco'
+	id 'maven-publish'
 }
 
 group = 'com.github.jimbovm'
 version = 0.0
 
 repositories {
+	mavenLocal()
 	mavenCentral()
 	gradlePluginPortal()
+}
+
+publishing {
+	publications {
+			isobel(MavenPublication) {
+			setGroupId 'com.github.jimbovm'
+			setArtifactId 'isobel'
+			version version
+			artifact jar
+		}
+	}
 }
 
 dependencies {
@@ -26,7 +39,6 @@ dependencies {
 	implementation 'org.apache.commons:commons-lang3:3.+'
 	compileOnly 'org.projectlombok:lombok:1.+'
 	annotationProcessor 'org.projectlombok:lombok:1.+'
-	
 	testCompileOnly 'org.projectlombok:lombok:1.18.32'
 	testAnnotationProcessor 'org.projectlombok:lombok:1.18.32'
 	// Testing
