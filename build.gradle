@@ -18,7 +18,7 @@ publishing {
 			isobel(MavenPublication) {
 			setGroupId 'com.github.jimbovm'
 			setArtifactId 'isobel'
-			version version
+			version = version
 			artifact jar
 		}
 	}
@@ -54,10 +54,10 @@ java {
 }
 
 task fatJar(type: Jar) {
-    archiveBaseName = 'isobel-fat'
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
-    with jar
+	archiveBaseName = 'isobel-fat'
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+	from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+	with jar
 }
 
 javadoc {
