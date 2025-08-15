@@ -184,10 +184,10 @@ public final class AssemblyFormat {
 		final int totalAreas = counts.values().stream().reduce(0, Integer::sum);
 		byte[] offsets = new byte[4];
 
-		offsets[3] = (byte) (totalAreas - counts.get(Environment.CASTLE));
-		offsets[2] = (byte) (offsets[3] - counts.get(Environment.UNDERGROUND));
-		offsets[1] = (byte) (offsets[2] - counts.get(Environment.OVERWORLD));
-		offsets[0] = (byte) (offsets[1] - counts.get(Environment.UNDERWATER));
+		offsets[3] = (byte) (totalAreas - counts.getOrDefault(Environment.CASTLE, 0));
+		offsets[2] = (byte) (offsets[3] - counts.getOrDefault(Environment.UNDERGROUND, 0));
+		offsets[1] = (byte) (offsets[2] - counts.getOrDefault(Environment.OVERWORLD, 0));
+		offsets[0] = (byte) (offsets[1] - counts.getOrDefault(Environment.UNDERWATER, 0));
 
 		output.put("geography-environment-offsets", formatAsAssembly(offsets, "AreaDataHOffsets"));
 		output.put("population-environment-offsets", formatAsAssembly(offsets, "EnemyAddrHOffsets"));
