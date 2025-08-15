@@ -171,7 +171,7 @@ class AreaHeaderTest extends TestSuite {
 
 	@Test void unmarshal() throws Exception {
 
-		String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><is:header xmlns:is='http://github.com/jimbovm/isobel'><is:autowalk>false</is:autowalk><is:background>NONE</is:background><is:fill>FILL_2BF_0BC</is:fill><is:platform>TREE</is:platform><is:scenery>HILLS</is:scenery><is:startPosition>BOTTOM</is:startPosition><is:ticks>400</is:ticks></is:header>";
+		String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><is:header xmlns:is='https://github.com/jimbovm/isobel'><is:autowalk>false</is:autowalk><is:background>NONE</is:background><is:fill>FILL_2BF_0BC</is:fill><is:platform>TREE</is:platform><is:scenery>HILLS</is:scenery><is:startPosition>BOTTOM</is:startPosition><is:ticks>400</is:ticks></is:header>";
 
 		JAXBContext context = JAXBContext.newInstance(AreaHeader.class);
 		Unmarshaller m = context.createUnmarshaller();

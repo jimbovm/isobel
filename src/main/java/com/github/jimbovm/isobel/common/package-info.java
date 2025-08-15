@@ -3,9 +3,9 @@
  * of areas and a game scenario of worlds and levels.
  */
 @XmlSchema(
-	namespace = "http://github.com/jimbovm/isobel",
+	namespace = "https://github.com/jimbovm/isobel",
 	xmlns = {
-		@XmlNs(prefix = "is", namespaceURI = "http://github.com/jimbovm/isobel")
+		@XmlNs(prefix = "is", namespaceURI = "https://github.com/jimbovm/isobel")
 	},
 	elementFormDefault = XmlNsForm.QUALIFIED)
 package com.github.jimbovm.isobel.common;

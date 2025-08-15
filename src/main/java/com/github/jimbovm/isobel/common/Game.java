@@ -8,6 +8,7 @@ import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlID;
 import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,6 +22,7 @@ import com.github.jimbovm.isobel.bytecode.game.GameParser;
 @Setter
 @ToString
 @NoArgsConstructor
+@XmlType(name="game")
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "game")
 public final class Game {

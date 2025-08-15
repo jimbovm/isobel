@@ -47,6 +47,7 @@ import lombok.extern.log4j.Log4j2;
 @Setter
 @Log4j2
 @ToString
+@XmlType(name = "header")
 @XmlRootElement(name = "header")
 public final class AreaHeader {
 
