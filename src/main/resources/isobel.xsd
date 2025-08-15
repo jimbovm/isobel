@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+ SPDX-License-Identifier: MIT-0
+
+Copyright 2022-2025 Jimbo Brierley.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+of the Software, and to permit persons to whom the Software is furnished to do
+so.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+ -->
+<xs:schema elementFormDefault="qualified" version="1.0"
+     xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+     <xs:element name="game" type="game" />
+
+     <xs:complexType name="game" final="extension restriction">
+          <xs:sequence>
+               <xs:element name="atlas" type="atlas" minOccurs="0" />
+               <xs:element name="scenario" type="scenario" minOccurs="0" />
+          </xs:sequence>
+          <xs:attribute name="id" type="xs:ID" />
+     </xs:complexType>
+
+     <xs:complexType name="atlas" final="extension restriction">
+          <xs:sequence>
+               <xs:element name="area" type="area" minOccurs="0" maxOccurs="unbounded" />
+          </xs:sequence>
+     </xs:complexType>
+
+     <xs:complexType name="scenario" final="extension restriction">
+          <xs:sequence>
+               <xs:element name="world" type="world" minOccurs="0" maxOccurs="unbounded" />
+          </xs:sequence>
+     </xs:complexType>
+
+     <xs:complexType name="world" final="extension restriction">
+          <xs:sequence>
+               <xs:element name="level" type="level" minOccurs="0" maxOccurs="unbounded" />
+          </xs:sequence>
+          <xs:attribute name="hidden1UpCost" type="xs:byte" use="required" />
+     </xs:complexType>
+
+     <xs:complexType name="level" final="extension restriction">
+          <xs:sequence />
+          <xs:attribute name="startArea" type="xs:IDREF" />
+          <xs:attribute name="checkpoint" type="xs:byte" use="required" />
+     </xs:complexType>
+
+     <xs:complexType name="areaHeader" final="extension restriction">
+          <xs:sequence>
+               <xs:element name="autowalk" type="xs:boolean" />
+               <xs:element name="background" type="background" minOccurs="0" />
+               <xs:element name="fill" type="fill" minOccurs="0" />
+               <xs:element name="platform" type="platform" minOccurs="0" />
+               <xs:element name="scenery" type="scenery" minOccurs="0" />
+               <xs:element name="startPosition" type="startPosition" minOccurs="0" />
+               <xs:element name="ticks" type="xs:int" />
+          </xs:sequence>
+     </xs:complexType>
+
+     <xs:complexType name="area" final="extension restriction">
+          <xs:sequence>
+               <xs:element name="header" type="areaHeader" minOccurs="0" />
+               <xs:element name="geography" minOccurs="0">
+                    <xs:complexType>
+                         <xs:sequence>
+                              <xs:choice minOccurs="0" maxOccurs="unbounded">
+                                   <xs:element name="anglePipe" type="anglePipe" />
+                                   <xs:element name="backgroundModifier"
+                                        type="backgroundModifier" />
+                                   <xs:element name="castle" type="castle" />
+                                   <xs:element name="character" type="character" />
+                                   <xs:element name="column" type="column" />
+                                   <xs:element name="exitPointer" type="exitPointer" />
+                                   <xs:element name="extensiblePlatform"
+                                        type="extensiblePlatform" />
+                                   <xs:element name="fillSceneryModifier"
+                                        type="fillSceneryModifier" />
+                                   <xs:element name="fixedExtensible" type="fixedExtensible" />
+                                   <xs:element name="fixedStatic" type="fixedStatic" />
+                                   <xs:element name="fullHeightRope" type="fullHeightRope" />
+                                   <xs:element name="row" type="row" />
+                                   <xs:element name="scaleRopeVertical" type="scaleRopeVertical" />
+                                   <xs:element name="singletonObject" type="singletonObject" />
+                                   <xs:element name="staircase" type="staircase" />
+                                   <xs:element name="uprightPipe" type="uprightPipe" />
+                              </xs:choice>
+                         </xs:sequence>
+                    </xs:complexType>
+               </xs:element>
+               <xs:element name="population" minOccurs="0">
+                    <xs:complexType>
+                         <xs:sequence>
+                              <xs:choice minOccurs="0" maxOccurs="unbounded">
+                                   <xs:element name="character"
+                                        type="character" />
+                                   <xs:element name="exitPointer"
+                                        type="exitPointer" />
+                              </xs:choice>
+                         </xs:sequence>
+                    </xs:complexType>
+               </xs:element>
+          </xs:sequence>
+          <xs:attribute name="environment" type="environment" />
+          <xs:attribute name="id" type="xs:ID" />
+          <xs:attribute name="familiarName" type="xs:string" />
+     </xs:complexType>
+
+     <xs:simpleType name="background">
+          <xs:restriction base="xs:string">
+               <xs:enumeration value="NONE" />
+               <xs:enumeration value="UNDERWATER" />
+               <xs:enumeration value="CASTLE_WALL" />
+               <xs:enumeration value="OVER_WATER" />
+               <xs:enumeration value="NIGHT" />
+               <xs:enumeration value="DAY_SNOW" />
+               <xs:enumeration value="NIGHT_SNOW" />
+               <xs:enumeration value="MONOCHROME" />
+          </xs:restriction>
+     </xs:simpleType>
+
+     <xs:simpleType name="fill">
+          <xs:restriction base="xs:string">
+               <xs:enumeration value="FILL_NONE" />
+               <xs:enumeration value="FILL_2BF_0BC" />
+               <xs:enumeration value="FILL_2BF_1BC" />
+               <xs:enumeration value="FILL_2BF_3BC" />
+               <xs:enumeration value="FILL_2BF_4BC" />
+               <xs:enumeration value="FILL_2BF_8BC" />
+               <xs:enumeration value="FILL_5BF_1BC" />
+               <xs:enumeration value="FILL_5BF_3BC" />
+               <xs:enumeration value="FILL_5BF_4BC" />
+               <xs:enumeration value="FILL_6BF_1BC" />
+               <xs:enumeration value="FILL_0BF_1BC" />
+               <xs:enumeration value="FILL_6BF_4BC" />
+               <xs:enumeration value="FILL_9BF_1BC" />
+               <xs:enumeration value="FILL_2BF_3BG_5BL_2BG_1BC" />
+               <xs:enumeration value="FILL_2BF_3BG_4BL_3BG_1BC" />
+               <xs:enumeration value="FILL_ALL" />
+          </xs:restriction>
+     </xs:simpleType>
+
+     <xs:simpleType name="platform">
+          <xs:restriction base="xs:string">
+               <xs:enumeration value="TREE" />
+               <xs:enumeration value="MUSHROOM" />
+               <xs:enumeration value="CANNON" />
+               <xs:enumeration value="CLOUD" />
+          </xs:restriction>
+     </xs:simpleType>
+
+     <xs:simpleType name="scenery">
+          <xs:restriction base="xs:string">
+               <xs:enumeration value="NONE" />
+               <xs:enumeration value="CLOUDS" />
+               <xs:enumeration value="HILLS" />
+               <xs:enumeration value="FENCES" />
+          </xs:restriction>
+     </xs:simpleType>
+
+     <xs:simpleType name="startPosition">
+          <xs:restriction base="xs:string">
+               <xs:enumeration value="FALL_INTERNAL" />
+               <xs:enumeration value="FALL" />
+               <xs:enumeration value="BOTTOM" />
+               <xs:enumeration value="MIDDLE" />
+               <xs:enumeration value="FALL_4" />
+               <xs:enumeration value="FALL_5" />
+               <xs:enumeration value="BOTTOM_AUTOWALK" />
+               <xs:enumeration value="BOTTOM_AUTOWALK_7" />
+          </xs:restriction>
+     </xs:simpleType>
+
+     <xs:simpleType name="environment">
+          <xs:restriction base="xs:string">
+               <xs:enumeration value="UNDERWATER" />
+               <xs:enumeration value="OVERWORLD" />
+               <xs:enumeration value="UNDERGROUND" />
+               <xs:enumeration value="CASTLE" />
+          </xs:restriction>
+     </xs:simpleType>
+
+     <xs:complexType name="anglePipe" final="extension restriction">
+          <xs:sequence />
+          <xs:attribute name="x" type="xs:int" use="required" />
+          <xs:attribute name="y" type="xs:int" use="required" />
+     </xs:complexType>
+
+     <xs:complexType name="backgroundModifier" final="extension restriction">
+          <xs:sequence />
+          <xs:attribute name="x" type="xs:int" use="required" />
+          <xs:attribute name="background" type="background" />
+     </xs:complexType>
+
+     <xs:complexType name="castle" final="extension restriction">
+          <xs:sequence />
+          <xs:attribute name="x" type="xs:int" use="required" />
+          <xs:attribute name="size" type="size" />
+     </xs:complexType>
+
+     <xs:complexType name="column" final="extension restriction">
+          <xs:sequence />
+          <xs:attribute name="x" type="xs:int" use="required" />
+          <xs:attribute name="y" type="xs:int" use="required" />
+          <xs:attribute name="extent" type="xs:int" use="required" />
+          <xs:attribute name="type" type="columnType" />
+     </xs:complexType>
+
+     <xs:complexType name="extensiblePlatform" final="extension restriction">
+          <xs:sequence />
+          <xs:attribute name="x" type="xs:int" use="required" />
+          <xs:attribute name="y" type="xs:int" use="required" />
+          <xs:attribute name="extent" type="xs:int" use="required" />
+     </xs:complexType>
+
+     <xs:complexType name="fillSceneryModifier" final="extension restriction">
+          <xs:sequence />
+          <xs:attribute name="x" type="xs:int" use="required" />
+          <xs:attribute name="fill" type="fill" />
+          <xs:attribute name="scenery" type="scenery" />
+     </xs:complexType>
+
+     <xs:complexType name="fixedExtensible" final="extension restriction">
+          <xs:sequence />
+          <xs:attribute name="x" type="xs:int" use="required" />
+          <xs:attribute name="extent" type="xs:int" use="required" />
+          <xs:attribute name="type" type="fixedExtensibleType" />
+     </xs:complexType>
+
+     <xs:complexType name="fixedStatic" final="extension restriction">
+          <xs:sequence />
+          <xs:attribute name="x" type="xs:int" use="required" />
+          <xs:attribute name="type" type="fixedStaticType" />
+     </xs:complexType>
+
+     <xs:complexType name="fullHeightRope" final="extension restriction">
+          <xs:sequence />
+          <xs:attribute name="x" type="xs:int" use="required" />
+     </xs:complexType>
+
+     <xs:complexType name="row" final="extension restriction">
+          <xs:sequence />
+          <xs:attribute name="x" type="xs:int" use="required" />
+          <xs:attribute name="y" type="xs:int" use="required" />
+          <xs:attribute name="extent" type="xs:int" use="required" />
+          <xs:attribute name="type" type="rowType" />
+     </xs:complexType>
+
+     <xs:complexType name="scaleRopeVertical" final="extension restriction">
+          <xs:sequence />
+          <xs:attribute name="x" type="xs:int" use="required" />
+          <xs:attribute name="extent" type="xs:int" use="required" />
+     </xs:complexType>
+
+     <xs:complexType name="singletonObject" final="extension restriction">
+          <xs:sequence />
+          <xs:attribute name="x" type="xs:int" use="required" />
+          <xs:attribute name="y" type="xs:int" use="required" />
+          <xs:attribute name="type" type="singletonType" />
+     </xs:complexType>
+
+     <xs:complexType name="staircase" final="extension restriction">
+          <xs:sequence />
+          <xs:attribute name="x" type="xs:int" use="required" />
+          <xs:attribute name="extent" type="xs:int" use="required" />
+     </xs:complexType>
+
+     <xs:complexType name="uprightPipe" final="extension restriction">
+          <xs:sequence />
+          <xs:attribute name="x" type="xs:int" use="required" />
+          <xs:attribute name="y" type="xs:int" use="required" />
+          <xs:attribute name="extent" type="xs:int" use="required" />
+          <xs:attribute name="enterable" type="xs:boolean" use="required" />
+     </xs:complexType>
+
+     <xs:complexType name="character" final="extension restriction">
+          <xs:sequence />
+          <xs:attribute name="x" type="xs:int" use="required" />
+          <xs:attribute name="y" type="xs:int" use="required" />
+          <xs:attribute name="type" type="characterType" />
+          <xs:attribute name="hardModeOnly" type="xs:boolean" use="required" />
+     </xs:complexType>
+
+     <xs:complexType name="exitPointer" final="extension restriction">
+          <xs:sequence />
+          <xs:attribute name="x" type="xs:int" use="required" />
+          <xs:attribute name="destination" type="xs:string" />
+          <xs:attribute name="startPage" type="xs:int" use="required" />
+          <xs:attribute name="activeFromWorld" type="xs:int" use="required" />
+     </xs:complexType>
+
+     <xs:simpleType name="size">
+          <xs:restriction base="xs:string">
+               <xs:enumeration value="SMALL" />
+               <xs:enumeration value="LARGE" />
+          </xs:restriction>
+     </xs:simpleType>
+
+     <xs:simpleType name="columnType">
+          <xs:restriction base="xs:string">
+               <xs:enumeration value="BRICK" />
+               <xs:enumeration value="BLOCK" />
+          </xs:restriction>
+     </xs:simpleType>
+
+     <xs:simpleType name="fixedExtensibleType">
+          <xs:restriction base="xs:string">
+               <xs:enumeration value="PIT" />
+               <xs:enumeration value="HORIZONTAL_SCALE_ROPE" />
+               <xs:enumeration value="BRIDGE_Y7" />
+               <xs:enumeration value="BRIDGE_Y8" />
+               <xs:enumeration value="BRIDGE_Y10" />
+               <xs:enumeration value="POOL" />
+               <xs:enumeration value="QUESTION_BLOCK_RUN_Y3" />
+               <xs:enumeration value="QUESTION_BLOCK_RUN_Y7" />
+          </xs:restriction>
+     </xs:simpleType>
+
+     <xs:simpleType name="fixedStaticType">
+          <xs:restriction base="xs:string">
+               <xs:enumeration value="TEE_PIPE" />
+               <xs:enumeration value="FLAGPOLE" />
+               <xs:enumeration value="AXE" />
+               <xs:enumeration value="CHAIN" />
+               <xs:enumeration value="BOWSER_BRIDGE" />
+               <xs:enumeration value="WARP_SCROLL_LOCK" />
+               <xs:enumeration value="SCROLL_LOCK" />
+               <xs:enumeration value="INFINITE_FLYING_CHEEP_GENERATOR" />
+               <xs:enumeration value="INFINITE_BULLET_BILL_GENERATOR" />
+               <xs:enumeration value="STOP_INFINITE_GENERATOR" />
+               <xs:enumeration value="LOOP" />
+          </xs:restriction>
+     </xs:simpleType>
+
+     <xs:simpleType name="rowType">
+          <xs:restriction base="xs:string">
+               <xs:enumeration value="BRICK" />
+               <xs:enumeration value="BLOCK" />
+               <xs:enumeration value="COIN" />
+          </xs:restriction>
+     </xs:simpleType>
+
+     <xs:simpleType name="singletonType">
+          <xs:restriction base="xs:string">
+               <xs:enumeration value="QUESTION_BLOCK_POWERUP" />
+               <xs:enumeration value="QUESTION_BLOCK_COIN" />
+               <xs:enumeration value="HIDDEN_BLOCK_COIN" />
+               <xs:enumeration value="HIDDEN_BLOCK_1UP" />
+               <xs:enumeration value="BRICK_POWERUP" />
+               <xs:enumeration value="BRICK_VINE" />
+               <xs:enumeration value="BRICK_STARMAN" />
+               <xs:enumeration value="BRICK_MULTI_COIN" />
+               <xs:enumeration value="BRICK_1UP" />
+               <xs:enumeration value="QUESTION_BLOCK_USED" />
+               <xs:enumeration value="SIDEWAYS_PIPE" />
+               <xs:enumeration value="JUMPING_BOARD" />
+          </xs:restriction>
+     </xs:simpleType>
+
+     <xs:simpleType name="characterType">
+          <xs:restriction base="xs:string">
+               <xs:enumeration value="GREEN_TROOPA" />
+               <xs:enumeration value="BUZZY_BEETLE" />
+               <xs:enumeration value="RED_TROOPA" />
+               <xs:enumeration value="HAMMER_BRO" />
+               <xs:enumeration value="GOOMBA" />
+               <xs:enumeration value="BLOOBER" />
+               <xs:enumeration value="BULLET_BILL" />
+               <xs:enumeration value="GREEN_PARATROOPA_FIXED" />
+               <xs:enumeration value="GREEN_CHEEP" />
+               <xs:enumeration value="RED_CHEEP" />
+               <xs:enumeration value="PODOBOO" />
+               <xs:enumeration value="PIRANHA_PLANT" />
+               <xs:enumeration value="GREEN_PARATROOPA_HOP" />
+               <xs:enumeration value="RED_PARATROOPA" />
+               <xs:enumeration value="GREEN_PARATROOPA_HOVER" />
+               <xs:enumeration value="LAKITU" />
+               <xs:enumeration value="SPINY" />
+               <xs:enumeration value="FLYING_CHEEP_GENERATOR" />
+               <xs:enumeration value="BOWSER_BREATH_GENERATOR" />
+               <xs:enumeration value="FIREWORKS" />
+               <xs:enumeration value="BILL_GENERATOR" />
+               <xs:enumeration value="SLOW_FIRE_BAR_CLOCKWISE" />
+               <xs:enumeration value="FAST_FIRE_BAR_CLOCKWISE" />
+               <xs:enumeration value="SLOW_FIRE_BAR_ANTICLOCKWISE" />
+               <xs:enumeration value="FAST_FIRE_BAR_ANTICLOCKWISE" />
+               <xs:enumeration value="LONG_FIRE_BAR_CLOCKWISE" />
+               <xs:enumeration value="SCALE_LIFT" />
+               <xs:enumeration value="LIFT_UP_AND_DOWN" />
+               <xs:enumeration value="LIFT_UP" />
+               <xs:enumeration value="LIFT_DOWN" />
+               <xs:enumeration value="LIFT_SIDE_TO_SIDE" />
+               <xs:enumeration value="LIFT_FALL" />
+               <xs:enumeration value="LIFT_RIGHT" />
+               <xs:enumeration value="SHORT_LIFT_UP" />
+               <xs:enumeration value="SHORT_LIFT_DOWN" />
+               <xs:enumeration value="BOWSER" />
+               <xs:enumeration value="WARP_ZONE" />
+               <xs:enumeration value="TOAD_PEACH" />
+               <xs:enumeration value="GOOMBA_SQUAD_2_Y10" />
+               <xs:enumeration value="GOOMBA_SQUAD_3_Y10" />
+               <xs:enumeration value="GOOMBA_SQUAD_2_Y6" />
+               <xs:enumeration value="GOOMBA_SQUAD_3_Y6" />
+               <xs:enumeration value="TROOPA_SQUAD_2_Y10" />
+               <xs:enumeration value="TROOPA_SQUAD_3_Y10" />
+               <xs:enumeration value="TROOPA_SQUAD_2_Y6" />
+               <xs:enumeration value="TROOPA_SQUAD_3_Y6" />
+          </xs:restriction>
+     </xs:simpleType>
+
+</xs:schema>
