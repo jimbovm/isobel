@@ -94,11 +94,11 @@ public final class Area implements Comparable<Area> {
 	@Getter
 	@AllArgsConstructor
 	public enum Environment {
-		/** Underwater, as e.g. world 2-2 in the original. */
+		/** Underwater, as for instance world 2-2 in the original. */
 		UNDERWATER (0),
-		/** Outside, as e.g. 1-1 in the original.  */
+		/** Outside, as for instance world 1-1 in the original.  */
 		OVERWORLD (1),
-		/** Underground, as e.g. 1-2 in the original. */
+		/** Underground, as for instance world 1-2 in the original. */
 		UNDERGROUND (2),
 		/** Inside a castle, as every W-4 level in the original. */
 		CASTLE (3);
