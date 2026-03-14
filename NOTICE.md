@@ -1,4 +1,4 @@
-Unless otherwise specified and clearly indicated at the head of the file, all source code, documentation and support files within the `com.github.jimbovm.isobel` Java package, and all documentation in the root of this repository, are provided under the MIT No Attribution Licence (SPDX-License-Identifier: MIT-0). See `LICENCE.md` for terms.
+Unless otherwise specified and clearly indicated at the head of the file, all source code, documentation and support files within the `io.github.jimbovm.isobel` Java package, and all documentation in the root of this repository, are provided under the MIT No Attribution Licence (SPDX-License-Identifier: MIT-0). See `LICENCE.md` for terms.
 
 Some dependencies have different licence terms.
 

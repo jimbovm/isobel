@@ -12,7 +12,7 @@ allprojects {
      plugins.apply("com.gradleup.shadow")
 }
 
-group = "com.github.jimbovm"
+group = "io.github.jimbovm"
 version = 0.0
 
 repositories {
