@@ -6,14 +6,14 @@ plugins {
 }
 
 allprojects {
-     plugins.apply("java")
-     plugins.apply("jacoco")
-     plugins.apply("maven-publish")
-     plugins.apply("com.gradleup.shadow")
+	plugins.apply("java")
+	plugins.apply("jacoco")
+	plugins.apply("maven-publish")
+	plugins.apply("com.gradleup.shadow")
 }
 
 group = "io.github.jimbovm"
-version = "0.0.2"
+version = "0.1.0"
 
 repositories {
 	mavenLocal()
@@ -21,27 +21,39 @@ repositories {
 	gradlePluginPortal()
 }
 
+
+publishing {
+	publications {
+		create<MavenPublication>(rootProject.name) {
+			from(components["java"])
+			groupId = groupId
+			artifactId = rootProject.name
+			version = version
+		}
+	}
+}
+
 dependencies {
 	// Logging
-	implementation("org.apache.logging.log4j:log4j-api:2.17.+")
-	implementation("org.apache.logging.log4j:log4j-core:2.17.+")
+	implementation("org.apache.logging.log4j:log4j-api:[2.17,)")
+	implementation("org.apache.logging.log4j:log4j-core:[2.17,)")
 	// XML serialization
-	implementation("org.glassfish.jaxb:jaxb-runtime:3.+")
-	implementation("jakarta.xml.bind:jakarta.xml.bind-api:3.+")
+	implementation("org.glassfish.jaxb:jaxb-runtime:[3.0,)")
+	implementation("jakarta.xml.bind:jakarta.xml.bind-api:[3.0,)")
 	// Validation
-	implementation("jakarta.validation:jakarta.validation-api:3.+")
-	implementation("org.hibernate.validator:hibernate-validator:8.+")
-	implementation("org.glassfish:jakarta.el:5.+")
+	implementation("jakarta.validation:jakarta.validation-api:[3.0,)")
+	implementation("org.hibernate.validator:hibernate-validator:[8.0,)")
+	implementation("org.glassfish:jakarta.el:[5.0,)")
 	// Helpers
-	implementation("org.apache.commons:commons-lang3:3.+")
-	compileOnly("org.projectlombok:lombok:1.+")
-	annotationProcessor("org.projectlombok:lombok:1.+")
-	testCompileOnly("org.projectlombok:lombok:1.18.32")
-	testAnnotationProcessor("org.projectlombok:lombok:1.18.32")
+	implementation("org.apache.commons:commons-lang3:[3.0,)")
+	compileOnly("org.projectlombok:lombok:[1.0,)")
+	annotationProcessor("org.projectlombok:lombok:[1.18,)")
+	testCompileOnly("org.projectlombok:lombok:[1.18,)")
+	testAnnotationProcessor("org.projectlombok:lombok:[1.18,)")
 	// Testing
-	testImplementation("org.junit.jupiter:junit-jupiter:5.+")
+	testImplementation("org.junit.jupiter:junit-jupiter:[5.0,)")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-	testImplementation("org.glassfish:jakarta.el:5.+")
+	testImplementation("org.glassfish:jakarta.el:[5.0,)")
 }
 
 java {
