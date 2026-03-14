@@ -12,8 +12,8 @@ allprojects {
      plugins.apply("com.gradleup.shadow")
 }
 
-group = "com.github.jimbovm"
-version = 0.0
+group = "io.github.jimbovm"
+version = "0.0.2"
 
 repositories {
 	mavenLocal()
