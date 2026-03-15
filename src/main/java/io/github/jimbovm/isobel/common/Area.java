@@ -52,6 +52,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.UUID;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -85,6 +86,9 @@ import lombok.ToString;
 @XmlType(propOrder={"header", "geography", "population"})
 public final class Area implements Comparable<Area> {
 
+	/** Strings for environment types. */
+	private static final ResourceBundle environmentStrings = ResourceBundle.getBundle("Environment");
+
 	/**
 	 * The environment type of an area. Changing the environment
 	 * changes the appearance, music and behaviour of some actors.
@@ -104,6 +108,10 @@ public final class Area implements Comparable<Area> {
 		CASTLE (3);
 
 		private final int id;
+
+		public String toString() {
+			return environmentStrings.getString(this.name());
+		}
 	}
 	
 	/** The environment type of the area. */

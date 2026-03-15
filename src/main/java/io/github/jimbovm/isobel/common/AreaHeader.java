@@ -51,7 +51,7 @@ import lombok.extern.log4j.Log4j2;
 @XmlRootElement(name = "header")
 public final class AreaHeader {
 
-	/** Strings for header bytecode */
+	/** Strings for header bytecode. */
 	private static final ResourceBundle headerStrings = ResourceBundle.getBundle("Header");
 
 	private static final int MASK_TIMER = 0b1100000000000000;
