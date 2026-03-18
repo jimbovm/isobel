@@ -1,4 +1,4 @@
-/** 
+/**
  * Functionality for working with Isobel's intermediate representation
  * of population actors, which control enemies, exits and more.
  */

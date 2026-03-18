@@ -1,3 +1,9 @@
+/*
+ * SPDX-License-Identifier: MIT-0
+ *
+ * This file is part of Isobel (https://github.com/jimbovm/isobel).
+ */
+
 package io.github.jimbovm.isobel.common;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -7,15 +13,15 @@ import java.util.ArrayList;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 
-import io.github.jimbovm.isobel.test.TestSuite;
-
 import io.github.jimbovm.isobel.actor.geography.GeographyActor;
 import io.github.jimbovm.isobel.actor.geography.SingletonObject;
 import io.github.jimbovm.isobel.bytecode.geography.GeographyUnparser;
+import io.github.jimbovm.isobel.test.TestSuite;
 
 public class AreaTest extends TestSuite {
 
-	@Test void skipOnePage() {
+	@Test
+	void skipOnePage() {
 
 		final int Y = 10;
 
@@ -59,7 +65,8 @@ public class AreaTest extends TestSuite {
 		assertEquals((byte) 0xFD, bytecode[2 + 8]);
 	}
 
-	@Test void skipTwoPages() {
+	@Test
+	void skipTwoPages() {
 
 		final int Y = 10;
 
@@ -92,7 +99,7 @@ public class AreaTest extends TestSuite {
 
 		// the low byte of the D-type command should point to page 3
 		assertEquals(3, bytecode[2 + 5] & 0b00011111);
-		
+
 		// final byte should be EOF
 		assertEquals((byte) 0xFD, bytecode[2 + 8]);
 	}

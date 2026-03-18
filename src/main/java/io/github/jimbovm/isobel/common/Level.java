@@ -1,3 +1,9 @@
+/*
+ * SPDX-License-Identifier: MIT-0
+ *
+ * This file is part of Isobel (https://github.com/jimbovm/isobel).
+ */
+
 package io.github.jimbovm.isobel.common;
 
 import jakarta.validation.constraints.PositiveOrZero;
@@ -6,6 +12,7 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlIDREF;
 import jakarta.xml.bind.annotation.XmlRootElement;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,13 +32,16 @@ import lombok.ToString;
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "level")
 public final class Level {
-	
-	/** The starting area, at the beginning of which the player is initially placed. */
+
+	/**
+	 * The starting area, at the beginning of which the player is initially placed.
+	 */
 	@XmlIDREF
 	@XmlAttribute(name = "startArea")
 	private Area startArea;
 
 	/** The page at which the player resumes if they lose a life after passing. */
 	@XmlAttribute(name = "checkpoint")
-	@PositiveOrZero byte checkpoint;
+	@PositiveOrZero
+	byte checkpoint;
 }

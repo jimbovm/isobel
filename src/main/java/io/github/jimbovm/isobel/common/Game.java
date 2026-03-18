@@ -1,3 +1,9 @@
+/*
+ * SPDX-License-Identifier: MIT-0
+ *
+ * This file is part of Isobel (https://github.com/jimbovm/isobel).
+ */
+
 package io.github.jimbovm.isobel.common;
 
 import java.io.IOException;
@@ -9,10 +15,12 @@ import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlID;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlType;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+
 import io.github.jimbovm.isobel.bytecode.game.GameParser;
 
 /**
@@ -22,7 +30,7 @@ import io.github.jimbovm.isobel.bytecode.game.GameParser;
 @Setter
 @ToString
 @NoArgsConstructor
-@XmlType(name="game")
+@XmlType(name = "game")
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "game")
 public final class Game {
@@ -30,7 +38,7 @@ public final class Game {
 	@XmlID
 	@XmlAttribute(name = "id")
 	private String id;
-	
+
 	/**
 	 * The complete set of areas in the game, including starting,
 	 * sub and interlude areas.
@@ -52,11 +60,13 @@ public final class Game {
 
 	/**
 	 * Parse a <code>Game</code> from a file. This file should be an
-	 * exact binary image of the two game ROM chips, concatenated, 
+	 * exact binary image of the two game ROM chips, concatenated,
 	 * with no header.
 	 * 
-	 * @param path A filename from which to read.
-	 * @return A <code>Game</code> parsed from the supplied file.
+	 * @param  path        A filename from which to read.
+	 * 
+	 * @return             A <code>Game</code> parsed from the supplied file.
+	 * 
 	 * @throws IOException In the event of a problem reading from the file.
 	 */
 	public static Game parse(String path) throws IOException {
@@ -64,7 +74,7 @@ public final class Game {
 		Game game = new Game();
 
 		GameParser parser = GameParser.create(path);
-		
+
 		game.atlas = parser.parseAtlas();
 		game.scenario = parser.parseScenario();
 

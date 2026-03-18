@@ -1,21 +1,8 @@
-/* SPDX-License-Identifier: MIT-0
-
-Copyright 2022-2024 Jimbo Brierley.
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of 
-this software and associated documentation files (the "Software"), to deal in 
-the Software without restriction, including without limitation the rights to 
-use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies 
-of the Software, and to permit persons to whom the Software is furnished to do 
-so.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE 
-SOFTWARE. */
+/*
+ * SPDX-License-Identifier: MIT-0
+ *
+ * This file is part of Isobel (https://github.com/jimbovm/isobel).
+ */
 
 package io.github.jimbovm.isobel.actor;
 
@@ -53,16 +40,14 @@ public interface Actor extends Comparable<Actor> {
 	 * natural ordering that is inconsistent with
 	 * <code>equals</code></strong>.
 	 *
-	 * @param actor An actor against which to perform a comparison.
+	 * @param  actor An actor against which to perform a comparison.
 	 *
-	 * @return -1 if this actor has a lesser X position than the argument, 1
-	 * if the argument's X position is lesser, and 0 otherwise. 
+	 * @return       -1 if this actor has a lesser X position than the argument, 1
+	 *               if the argument's X position is lesser, and 0 otherwise.
 	 */
 	default int compareTo(Actor actor) {
 		if (actor == null) {
-			throw new NullPointerException(
-				"Invalid comparison of actor with null"
-				);
+			throw new NullPointerException("Invalid comparison of actor with null");
 		}
 		if (this.getX() < actor.getX()) {
 			return -1;

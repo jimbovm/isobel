@@ -1,25 +1,17 @@
-/* SPDX-License-Identifier: MIT-0
-
-Copyright 2022-2024 Jimbo Brierley.
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of 
-this software and associated documentation files (the "Software"), to deal in 
-the Software without restriction, including without limitation the rights to 
-use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies 
-of the Software, and to permit persons to whom the Software is furnished to do 
-so.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE 
-SOFTWARE. */
+/*
+ * SPDX-License-Identifier: MIT-0
+ *
+ * This file is part of Isobel (https://github.com/jimbovm/isobel).
+ */
 
 package io.github.jimbovm.isobel.bytecode.geography;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.extern.log4j.Log4j2;
+
 import org.apache.commons.lang3.StringUtils;
+
 import io.github.jimbovm.isobel.actor.geography.AnglePipe;
 import io.github.jimbovm.isobel.actor.geography.Castle;
 import io.github.jimbovm.isobel.actor.geography.FullHeightRope;
@@ -27,10 +19,6 @@ import io.github.jimbovm.isobel.actor.geography.GeographyActor;
 import io.github.jimbovm.isobel.actor.geography.ScaleRopeVertical;
 import io.github.jimbovm.isobel.actor.geography.Staircase;
 import io.github.jimbovm.isobel.bytecode.common.CommandUtils;
-
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.extern.log4j.Log4j2;
 
 /**
  * Collects functionality for working with F-type geography commands,
@@ -57,13 +45,13 @@ public final class FTypeCommand {
 	private static enum Mask {
 
 		/** Bitmask for the X coordinate bits in the low byte */
-		X (0b11110000),
+		X(0b11110000),
 		/** Bitmask for the actor ID plus its parameter in the high byte */
-		ACTOR_WITH_PARAMETER (0b01111111),
+		ACTOR_WITH_PARAMETER(0b01111111),
 		/** Bitmask for the actor ID in the high byte */
-		ACTOR (0b01110000),
+		ACTOR(0b01110000),
 		/** Bitmask for the actor parameter in the high byte */
-		PARAMETER (0b00001111);
+		PARAMETER(0b00001111);
 
 		private final int mask;
 	}
@@ -72,26 +60,37 @@ public final class FTypeCommand {
 	@Getter
 	@AllArgsConstructor
 	public static enum ActorId {
-		/** Actor ID for parsing a command for a full height rope.
+
+		/**
+		 * Actor ID for parsing a command for a full height rope.
+		 * 
 		 * @see io.github.jimbovm.isobel.actor.geography.FullHeightRope
 		 */
-		FULL_HEIGHT_ROPE (0),
-		/** Actor ID for parsing a command for a vertical scale lift rope.
+		FULL_HEIGHT_ROPE(0),
+		/**
+		 * Actor ID for parsing a command for a vertical scale lift rope.
+		 * 
 		 * @see io.github.jimbovm.isobel.actor.geography.ScaleRopeVertical
 		 */
-		SCALE_ROPE_VERTICAL (1),
-		/** Actor ID for parsing a command for a castle.
+		SCALE_ROPE_VERTICAL(1),
+		/**
+		 * Actor ID for parsing a command for a castle.
+		 * 
 		 * @see io.github.jimbovm.isobel.actor.geography.Castle
 		 */
-		CASTLE (2),
-		/** Actor ID for parsing a command for a staircase.
+		CASTLE(2),
+		/**
+		 * Actor ID for parsing a command for a staircase.
+		 * 
 		 * @see io.github.jimbovm.isobel.actor.geography.Staircase
 		 */
-		STAIRCASE (3),
-		/** Actor ID for parsing a command for an angle pipe.
+		STAIRCASE(3),
+		/**
+		 * Actor ID for parsing a command for an angle pipe.
+		 * 
 		 * @see io.github.jimbovm.isobel.actor.geography.AnglePipe
 		 */
-		ANGLE_PIPE (4);
+		ANGLE_PIPE(4);
 
 		/**
 		 * The unsigned integer representing the actor that the command spawns.
@@ -101,17 +100,23 @@ public final class FTypeCommand {
 		/**
 		 * Retrieve an actor ID enum value from an ID.
 		 * 
-		 * @param opcode An actor ID.
-		 * @return The enum value referred to by the ID.
+		 * @param  opcode An actor ID.
+		 * 
+		 * @return        The enum value referred to by the ID.
 		 */
 		public static ActorId from(int opcode) {
 
 			switch (opcode) {
-				case 0: return FULL_HEIGHT_ROPE;
-				case 1: return SCALE_ROPE_VERTICAL;
-				case 2: return CASTLE;
-				case 3: return STAIRCASE;
-				case 4: return ANGLE_PIPE;
+				case 0:
+					return FULL_HEIGHT_ROPE;
+				case 1:
+					return SCALE_ROPE_VERTICAL;
+				case 2:
+					return CASTLE;
+				case 3:
+					return STAIRCASE;
+				case 4:
+					return ANGLE_PIPE;
 				default:
 					log.error("Could not parse F-type command with invalid opcode " + opcode);
 					return null;
@@ -136,10 +141,14 @@ public final class FTypeCommand {
 	/**
 	 * Parse an F-type geography command and return an actor object.
 	 * 
-	 * @param lowByte The low byte of the command.
-	 * @param highByte The high byte of the command.
-	 * @param page The number of 16-block pages from the origin to offset the X and Y coordinates in the command.
-	 * @return A {@link io.github.jimbovm.isobel.actor.geography.GeographyActor} parsed from the input.
+	 * @param  lowByte  The low byte of the command.
+	 * @param  highByte The high byte of the command.
+	 * @param  page     The number of 16-block pages from the origin to offset the X
+	 *                  and Y coordinates in the command.
+	 * 
+	 * @return          A
+	 *                  {@link io.github.jimbovm.isobel.actor.geography.GeographyActor}
+	 *                  parsed from the input.
 	 */
 	public static GeographyActor parse(final int lowByte, final int highByte, final int page) {
 
@@ -148,7 +157,7 @@ public final class FTypeCommand {
 		final int actorId = (highByte & Mask.ACTOR_WITH_PARAMETER.getMask());
 
 		GeographyActor parsed = null;
-		
+
 		// Various F-type commands encode their parameters in weird ways.
 		final ActorId actor = ActorId.from((actorId & Mask.ACTOR.getMask()) >>> 4);
 
@@ -166,7 +175,8 @@ public final class FTypeCommand {
 				scaleRope.setExtent(parseParameter(actorId));
 				parsed = scaleRope;
 				break;
-			case CASTLE: return parseCastle(x, actorId);
+			case CASTLE:
+				return parseCastle(x, actorId);
 			case STAIRCASE: // staircases
 				Staircase staircase = new Staircase();
 				staircase.setExtent(parseParameter(actorId));
@@ -181,12 +191,12 @@ public final class FTypeCommand {
 				parsed = anglePipe;
 				break;
 			default: // everything else
-				log.error(String.format(
-					"Could not parse actor from bytes 0x%02X%02X (%s %s)", 
-					lowByte,
-					highByte,
-					StringUtils.leftPad(Integer.toBinaryString(lowByte), 8, '0'),
-					StringUtils.leftPad(Integer.toBinaryString(highByte), 8, '0')));
+				log
+					.error(String
+						.format("Could not parse actor from bytes 0x%02X%02X (%s %s)", lowByte,
+							highByte,
+							StringUtils.leftPad(Integer.toBinaryString(lowByte), 8, '0'),
+							StringUtils.leftPad(Integer.toBinaryString(highByte), 8, '0')));
 		}
 
 		return parsed;
@@ -195,18 +205,14 @@ public final class FTypeCommand {
 	/**
 	 * Return the game bytecode for a generic F-type command.
 	 * 
-	 * @param actorId The actor ID to encode.
-	 * @param The absolute X position of the command.
-	 * @param newPage Whether the command is the first on a new page.
-	 * @param The parameter to encode within the command.
-	 * @return Bytecode to spawn the actor described by the arguments.
+	 * @param  actorId The actor ID to encode.
+	 * @param  The     absolute X position of the command.
+	 * @param  newPage Whether the command is the first on a new page.
+	 * @param  The     parameter to encode within the command.
+	 * 
+	 * @return         Bytecode to spawn the actor described by the arguments.
 	 */
-	private static byte[] unparse(
-		final ActorId actorId,
-		final int x,
-		final int parameter,
-		final boolean newPage
-	) {
+	private static byte[] unparse(final ActorId actorId, final int x, final int parameter, final boolean newPage) {
 		byte[] bytecode = new byte[2];
 
 		bytecode[0] |= 0x0F; // constant
@@ -222,75 +228,66 @@ public final class FTypeCommand {
 	/**
 	 * Return a staircase bean in game bytecode format.
 	 * 
-	 * @param staircase A staircase bean.
-	 * @param newPage Whether the command is the first on a new page.
-	 * @return Bytecode to spawn the actor represented by the first argument.
+	 * @param  staircase A staircase bean.
+	 * @param  newPage   Whether the command is the first on a new page.
+	 * 
+	 * @return           Bytecode to spawn the actor represented by the first
+	 *                   argument.
 	 */
 	public static byte[] unparse(Staircase staircase, final boolean newPage) {
-		return unparse(
-			ActorId.STAIRCASE,
-			staircase.getX(),
-			staircase.getExtent(),
-			newPage);
+		return unparse(ActorId.STAIRCASE, staircase.getX(), staircase.getExtent(), newPage);
 	}
 
 	/**
 	 * Return a vertical scale rope bean in game bytecode format.
 	 * 
-	 * @param rope A vertical scale rope bean.
-	 * @param newPage Whether the command is the first on a new page.
-	 * @return Bytecode to spawn the actor represented by the first argument.
+	 * @param  rope    A vertical scale rope bean.
+	 * @param  newPage Whether the command is the first on a new page.
+	 * 
+	 * @return         Bytecode to spawn the actor represented by the first
+	 *                 argument.
 	 */
 	public static byte[] unparse(ScaleRopeVertical rope, final boolean newPage) {
-		return unparse(
-			ActorId.SCALE_ROPE_VERTICAL, 
-			rope.getX(),
-			rope.getExtent(),
-			newPage);
+		return unparse(ActorId.SCALE_ROPE_VERTICAL, rope.getX(), rope.getExtent(), newPage);
 	}
 
 	/**
 	 * Return a full height rope bean in game bytecode format.
 	 * 
-	 * @param rope A full height rope bean.
-	 * @param newPage Whether the command is the first on a new page.
-	 * @return Bytecode to spawn the actor represented by the first argument.
+	 * @param  rope    A full height rope bean.
+	 * @param  newPage Whether the command is the first on a new page.
+	 * 
+	 * @return         Bytecode to spawn the actor represented by the first
+	 *                 argument.
 	 */
 	public static byte[] unparse(FullHeightRope rope, final boolean newPage) {
-		return unparse(
-			ActorId.FULL_HEIGHT_ROPE,
-			rope.getX(),
-			0, // this actor doesn't take a parameter
+		return unparse(ActorId.FULL_HEIGHT_ROPE, rope.getX(), 0, // this actor doesn't take a parameter
 			newPage);
 	}
 
 	/**
 	 * Return a castle bean in game bytecode format.
 	 * 
-	 * @param castle A castle bean.
-	 * @param newPage Whether the command is the first on a new page.
-	 * @return Bytecode to spawn the actor represented by the first argument.
+	 * @param  castle  A castle bean.
+	 * @param  newPage Whether the command is the first on a new page.
+	 * 
+	 * @return         Bytecode to spawn the actor represented by the first
+	 *                 argument.
 	 */
 	public static byte[] unparse(Castle castle, final boolean newPage) {
-		return unparse(
-			ActorId.CASTLE,
-			castle.getX(),
-			castle.getSize().getId(),
-			newPage);
+		return unparse(ActorId.CASTLE, castle.getX(), castle.getSize().getId(), newPage);
 	}
 
 	/**
 	 * Return an angle pipe bean in game bytecode format.
 	 * 
-	 * @param pipe An angle pipe bean.
-	 * @param newPage Whether the command is the first on a new page.
-	 * @return Bytecode to spawn the actor represented by the first argument.
+	 * @param  pipe    An angle pipe bean.
+	 * @param  newPage Whether the command is the first on a new page.
+	 * 
+	 * @return         Bytecode to spawn the actor represented by the first
+	 *                 argument.
 	 */
 	public static byte[] unparse(AnglePipe pipe, final boolean newPage) {
-		return unparse(
-			ActorId.ANGLE_PIPE,
-			pipe.getX(),
-			pipe.getY(),
-			newPage);
+		return unparse(ActorId.ANGLE_PIPE, pipe.getX(), pipe.getY(), newPage);
 	}
 }

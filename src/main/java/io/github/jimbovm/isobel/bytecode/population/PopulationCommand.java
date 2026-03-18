@@ -1,27 +1,17 @@
-/* SPDX-License-Identifier: MIT-0
-
-Copyright 2022-2024 Jimbo Brierley.
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of 
-this software and associated documentation files (the "Software"), to deal in 
-the Software without restriction, including without limitation the rights to 
-use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies 
-of the Software, and to permit persons to whom the Software is furnished to do 
-so.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE 
-SOFTWARE. */
+/*
+ * SPDX-License-Identifier: MIT-0
+ *
+ * This file is part of Isobel (https://github.com/jimbovm/isobel).
+ */
 
 package io.github.jimbovm.isobel.bytecode.population;
 
 import static io.github.jimbovm.isobel.bytecode.common.CommandUtils.encodeCoordinates;
-import static io.github.jimbovm.isobel.bytecode.common.CommandUtils.encodeNewPage;
 import static io.github.jimbovm.isobel.bytecode.common.CommandUtils.encodeHardMode;
+import static io.github.jimbovm.isobel.bytecode.common.CommandUtils.encodeNewPage;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 import io.github.jimbovm.isobel.actor.PageSkip;
 import io.github.jimbovm.isobel.actor.population.Character;
@@ -29,13 +19,11 @@ import io.github.jimbovm.isobel.actor.population.ExitPointer;
 import io.github.jimbovm.isobel.common.Area;
 import io.github.jimbovm.isobel.common.Atlas;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
 /**
  * Encapulates functionality for working with population commands. Typically,
- * these are character commands, "characters" being moving objects which the 
- * player can interact with in some way, such as enemies, lifts and moving platforms.
+ * these are character commands, "characters" being moving objects which the
+ * player can interact with in some way, such as enemies, lifts and moving
+ * platforms.
  * Population commands also include page skip commands.
  */
 public interface PopulationCommand {
@@ -49,14 +37,20 @@ public interface PopulationCommand {
 
 		/** The ubiquitous turtle; walks off edges. */
 		GREEN_TROOPA_WALKOFF(0x00),
-		/** @deprecated A Red KT that behaves like a Green KT. Beta, not intended for use. */
+		/**
+		 * @deprecated A Red KT that behaves like a Green KT. Beta, not intended for
+		 *             use.
+		 */
 		@Deprecated
 		RED_TROOPA_WALKOFF(0x01),
 		/** The fireproof hardhead. */
 		BUZZY_BEETLE(0x02),
 		/** The ubiquitous turtle; turns around at edges. */
 		RED_TROOPA_STICKY(0x03),
-		/** @deprecated A Green KT that behaves like a Red KT. What Red Paratroopas become when stomped. */
+		/**
+		 * @deprecated A Green KT that behaves like a Red KT. What Red Paratroopas
+		 *             become when stomped.
+		 */
 		@Deprecated
 		GREEN_TROOPA_STICKY(0x04),
 		/** One half of the hammer-slinging duo. */
@@ -158,12 +152,12 @@ public interface PopulationCommand {
 	/**
 	 * Unparse an ExitPointer to game bytecode.
 	 *
-	 * @param exitPointer The ExitPointer to unparse.
-	 * @param newPage Whether to set the new page flag in the output.
-	 * @param atlas The Atlas to use to determine area index data.
+	 * @param  exitPointer The ExitPointer to unparse.
+	 * @param  newPage     Whether to set the new page flag in the output.
+	 * @param  atlas       The Atlas to use to determine area index data.
 	 *
-	 * @return The bytecode to spawn the exit pointer represented by the
-	 * first argument.
+	 * @return             The bytecode to spawn the exit pointer represented by the
+	 *                     first argument.
 	 */
 	public static byte[] unparse(ExitPointer exitPointer, final boolean newPage, final Atlas atlas) {
 
@@ -186,11 +180,12 @@ public interface PopulationCommand {
 	/**
 	 * Unparse a Character to game bytecode.
 	 *
-	 * @param character The Character to unparse.
-	 * @param newPage Whether to set the new page flag in the output.
+	 * @param  character The Character to unparse.
+	 * @param  newPage   Whether to set the new page flag in the output.
 	 *
-	 * @return The bytecode to spawn the character represented by the first
-	 * argument.
+	 * @return           The bytecode to spawn the character represented by the
+	 *                   first
+	 *                   argument.
 	 */
 	public static byte[] unparse(Character character, final boolean newPage) {
 
@@ -204,14 +199,15 @@ public interface PopulationCommand {
 
 		return bytecode;
 	}
+
 	/**
 	 * Unparse a PageSkip to game bytecode.
 	 *
-	 * @param skip The PageSkip to unparse.
-	 * @param newPage Whether to set the new page flag in the output.
+	 * @param  skip    The PageSkip to unparse.
+	 * @param  newPage Whether to set the new page flag in the output.
 	 *
-	 * @return The bytecode to spawn the page skip represented by the first
-	 * argument.
+	 * @return         The bytecode to spawn the page skip represented by the first
+	 *                 argument.
 	 */
 	public static byte[] unparse(PageSkip skip, final boolean newPage) {
 

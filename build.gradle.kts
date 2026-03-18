@@ -2,25 +2,25 @@ plugins {
 	java
 	jacoco
 	`maven-publish`
-	id("com.gradleup.shadow") version "9.0.0"
+	id("com.diffplug.spotless") version "8.+"
+	// id("com.gradleup.shadow") version "9.0.0"
 }
 
 allprojects {
 	plugins.apply("java")
 	plugins.apply("jacoco")
 	plugins.apply("maven-publish")
-	plugins.apply("com.gradleup.shadow")
+	// plugins.apply("com.gradleup.shadow")
 }
 
 group = "io.github.jimbovm"
-version = "0.1.0"
+version = "0.1.1"
 
 repositories {
 	mavenLocal()
 	mavenCentral()
 	gradlePluginPortal()
 }
-
 
 publishing {
 	publications {
@@ -29,7 +29,39 @@ publishing {
 			groupId = groupId
 			artifactId = rootProject.name
 			version = version
+			pom {
+				name = "Isobel"
+				description = "A library for working with the level data of 1985's most popular platform game."
+				url = "https://github.com/jimbovm/isobel"
+				licenses {
+					license {
+						name = "MIT No Attribution"
+						url = "https://spdx.org/licenses/MIT-0.html"
+					}
+				}
+				developers {
+					developer {
+						id = "jimbovm"
+						name = "Jimbo Brierley"
+						email = "tdnwl216x@mozmail.com"
+					}
+				}
+				scm {
+					connection = "scm:git:git://github.com/jimbovm/isobel.git"
+					developerConnection = "scm:git:git://github.com/jimbovm/isobel.git"
+					url = "https://github.com/jimbovm/isobel"
+				}
+			}
 		}
+	}
+}
+
+spotless {
+	java {
+		eclipse().configFile("formatter.xml")
+		removeUnusedImports()
+		importOrder("java|javax", "jakarta", "lombok", "", "io.github.jimbovm.isobel")
+		licenseHeader("/*\n * SPDX-License-Identifier: MIT-0\n *\n * This file is part of Isobel (https://github.com/jimbovm/isobel).\n */\n\n")
 	}
 }
 

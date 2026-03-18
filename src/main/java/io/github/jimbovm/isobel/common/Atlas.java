@@ -1,3 +1,9 @@
+/*
+ * SPDX-License-Identifier: MIT-0
+ *
+ * This file is part of Isobel (https://github.com/jimbovm/isobel).
+ */
+
 package io.github.jimbovm.isobel.common;
 
 import java.util.ArrayList;
@@ -12,6 +18,7 @@ import java.util.stream.Collectors;
 import jakarta.xml.bind.Unmarshaller;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
+
 import lombok.Getter;
 import lombok.ToString;
 
@@ -60,9 +67,10 @@ public final class Atlas {
 			subindex = 0;
 
 			// grab all areas having this environment
-			List<Area> environmentAreas = this.areas.stream()
-				.filter((area) -> area.getEnvironment() == environment)
-				.collect(Collectors.toList());
+			List<Area> environmentAreas =
+				this.areas
+					.stream().filter((area) -> area.getEnvironment() == environment)
+					.collect(Collectors.toList());
 
 			// assign each one a subindex sequentially and map them to it
 			for (Area area : environmentAreas) {
@@ -87,14 +95,21 @@ public final class Atlas {
 	}
 
 	private void regenerateAreaCounts() {
-		
-		Map<Area.Environment, Integer> counts = this.areas.stream().collect(Collectors.groupingBy(Area::getEnvironment, Collectors.collectingAndThen(Collectors.counting(), Long::intValue)));
+
+		Map<Area.Environment, Integer> counts =
+			this.areas
+				.stream()
+				.collect(Collectors
+					.groupingBy(Area::getEnvironment,
+						Collectors.collectingAndThen(Collectors.counting(), Long::intValue)));
 
 		this.areaCounts = counts;
 	}
 
-	/** Add an area to the atlas.
-	 *  @param area The area to add.
+	/**
+	 * Add an area to the atlas.
+	 * 
+	 * @param area The area to add.
 	 */
 	public void add(Area area) {
 		if (this.areas.contains(area)) {
@@ -108,13 +123,16 @@ public final class Atlas {
 		this.areaCounts.put(area.getEnvironment(), currentCount + 1);
 	}
 
-	/** Add a collection of areas to the atlas.
-	 *  @param areas A collection of areas. 
+	/**
+	 * Add a collection of areas to the atlas.
+	 * 
+	 * @param areas A collection of areas.
 	 */
 	public void addAll(Collection<Area> areas) {
 		for (Area area : areas) {
 			if (this.areas.contains(area)) {
-				throw new IllegalStateException(String.format("Area %s already in atlas", area.getId()));
+				throw new IllegalStateException(
+					String.format("Area %s already in atlas", area.getId()));
 			}
 		}
 		for (Area area : areas) {
@@ -144,8 +162,9 @@ public final class Atlas {
 	/**
 	 * Get an area from the atlas.
 	 * 
-	 * @param id The ID of the desired area.
-	 * @return The area with the supplied ID.
+	 * @param  id The ID of the desired area.
+	 * 
+	 * @return    The area with the supplied ID.
 	 */
 	public Area get(String id) {
 		return this.areasById.get(id);
@@ -154,8 +173,9 @@ public final class Atlas {
 	/**
 	 * Get the index number of an area.
 	 * 
-	 * @param area The area whose index number is desired.
-	 * @return The index number of the supplied area.
+	 * @param  area The area whose index number is desired.
+	 * 
+	 * @return      The index number of the supplied area.
 	 */
 	public int getIndex(Area area) {
 		return this.indexByArea.get(area);
@@ -166,7 +186,7 @@ public final class Atlas {
 	 * not explicitly serialized.
 	 * 
 	 * @param unmarshaller The unmarshaller being used.
-	 * @param parent The parent object.
+	 * @param parent       The parent object.
 	 */
 	public void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
 		this.regenerateIndexByArea();

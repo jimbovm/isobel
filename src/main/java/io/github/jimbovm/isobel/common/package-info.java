@@ -5,8 +5,7 @@
 @XmlSchema(
 	namespace = "https://github.com/jimbovm/isobel",
 	xmlns = {
-		@XmlNs(prefix = "is", namespaceURI = "https://github.com/jimbovm/isobel")
-	},
+		@XmlNs(prefix = "is", namespaceURI = "https://github.com/jimbovm/isobel") },
 	elementFormDefault = XmlNsForm.QUALIFIED)
 package io.github.jimbovm.isobel.common;
 

@@ -1,3 +1,9 @@
+/*
+ * SPDX-License-Identifier: MIT-0
+ *
+ * This file is part of Isobel (https://github.com/jimbovm/isobel).
+ */
+
 package io.github.jimbovm.isobel.bytecode.population;
 
 import io.github.jimbovm.isobel.actor.PageSkip;
@@ -37,5 +43,5 @@ public final class PopulationUnparser extends BytecodeUnparser<PopulationActor> 
 	protected byte[] unparseHeader() {
 		return null;
 	}
-	
+
 }

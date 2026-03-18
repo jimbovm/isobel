@@ -1,3 +1,9 @@
+/*
+ * SPDX-License-Identifier: MIT-0
+ *
+ * This file is part of Isobel (https://github.com/jimbovm/isobel).
+ */
+
 package io.github.jimbovm.isobel.common;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -13,10 +19,15 @@ import io.github.jimbovm.isobel.asm.AssemblyFormat;
 public class AtlasTest {
 
 	Area underwater1;
+
 	Area castle1;
+
 	Area underwater2;
+
 	Area overworld1;
+
 	Area overworld2;
+
 	Area underground1;
 
 	Atlas atlas = new Atlas();
@@ -50,7 +61,8 @@ public class AtlasTest {
 		atlas.addAll(List.of(underwater1, underwater2, castle1, overworld1, overworld2, underground1));
 	}
 
-	@Test void testIndexNumbers() {
+	@Test
+	void testIndexNumbers() {
 
 		assertEquals(0x00, atlas.getIndexByArea().get(underwater1));
 		assertEquals(0x01, atlas.getIndexByArea().get(underwater2));
@@ -60,14 +72,16 @@ public class AtlasTest {
 		assertEquals(0x60, atlas.getIndexByArea().get(castle1));
 	}
 
-	@Test void testCounts() {
+	@Test
+	void testCounts() {
 		assertEquals(2, atlas.getAreaCounts().get(Area.Environment.UNDERWATER));
 		assertEquals(2, atlas.getAreaCounts().get(Area.Environment.OVERWORLD));
 		assertEquals(1, atlas.getAreaCounts().get(Area.Environment.UNDERGROUND));
 		assertEquals(1, atlas.getAreaCounts().get(Area.Environment.CASTLE));
 	}
-	
-	@Test void testAdd() {
+
+	@Test
+	void testAdd() {
 
 		System.out.println(atlas.getIndexByArea());
 
@@ -76,7 +90,8 @@ public class AtlasTest {
 		System.out.println(atlas.getIndexByArea());
 	}
 
-	@Test void testAssembly() {
+	@Test
+	void testAssembly() {
 
 		for (Area area : atlas.getAreas()) {
 			System.out.println(area.getEnvironment());

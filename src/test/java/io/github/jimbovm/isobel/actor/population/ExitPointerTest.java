@@ -1,20 +1,27 @@
+/*
+ * SPDX-License-Identifier: MIT-0
+ *
+ * This file is part of Isobel (https://github.com/jimbovm/isobel).
+ */
+
 package io.github.jimbovm.isobel.actor.population;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
 import io.github.jimbovm.isobel.common.Area;
 import io.github.jimbovm.isobel.common.Atlas;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import java.util.List;
-
 public class ExitPointerTest {
 
-	@Test void testExitPointer() {
+	@Test
+	void testExitPointer() {
 
 		Atlas atlas = new Atlas();
-		
+
 		Area underwater1 = new Area();
 		underwater1.setEnvironment(Area.Environment.UNDERWATER);
 		underwater1.setId("Underwater_1");

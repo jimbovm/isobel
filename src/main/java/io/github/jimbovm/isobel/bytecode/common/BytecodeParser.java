@@ -1,21 +1,8 @@
-/* SPDX-License-Identifier: MIT-0
-
-Copyright 2022-2024 Jimbo Brierley.
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of 
-this software and associated documentation files (the "Software"), to deal in 
-the Software without restriction, including without limitation the rights to 
-use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies 
-of the Software, and to permit persons to whom the Software is furnished to do 
-so.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE 
-SOFTWARE. */
+/*
+ * SPDX-License-Identifier: MIT-0
+ *
+ * This file is part of Isobel (https://github.com/jimbovm/isobel).
+ */
 
 package io.github.jimbovm.isobel.bytecode.common;
 
@@ -25,6 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import jakarta.validation.constraints.NotNull;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
@@ -59,8 +47,9 @@ public abstract class BytecodeParser<T extends Actor> {
 	/**
 	 * Test whether the new page flag is set on a byte.
 	 * 
-	 * @param theByte A piece of bytecode.
-	 * @return True if the input has the new page flag set, false otherwise.
+	 * @param  theByte A piece of bytecode.
+	 * 
+	 * @return         True if the input has the new page flag set, false otherwise.
 	 */
 	protected boolean newPageFlagSet(final int theByte) {
 		return ((theByte & 0b10000000) >>> 7) == 1;
@@ -78,38 +67,42 @@ public abstract class BytecodeParser<T extends Actor> {
 	/**
 	 * Test whether a byte begins a three-byte command.
 	 * 
-	 * @param lowByte The first byte of a bytecode command.
-	 * @return True if the byte begins a three-byte command, false otherwise.
+	 * @param  lowByte The first byte of a bytecode command.
+	 * 
+	 * @return         True if the byte begins a three-byte command, false
+	 *                 otherwise.
 	 */
 	protected abstract boolean isThreeByte(final int lowByte);
 
 	/**
 	 * Test whether a byte begins a page skip command.
 	 * 
-	 * @param lowByte The first byte of a bytecode command.
-	 * @param highByte The second byte of a bytecode command.
-	 * @return True if the byte begins a page skip command, false otherwise.
+	 * @param  lowByte  The first byte of a bytecode command.
+	 * @param  highByte The second byte of a bytecode command.
+	 * 
+	 * @return          True if the byte begins a page skip command, false
+	 *                  otherwise.
 	 */
 	protected abstract boolean isPageSkip(final int lowByte, final int highByte);
 
 	/**
 	 * Handle a three-byte command.
 	 * 
-	 * @param lowByte The first byte of the command.
-	 * @param midByte The second byte of the command.
-	 * @param highByte The third byte of the command.
+	 * @param  lowByte  The first byte of the command.
+	 * @param  midByte  The second byte of the command.
+	 * @param  highByte The third byte of the command.
 	 * 
-	 * @return An object representative of the parameters.
+	 * @return          An object representative of the parameters.
 	 */
 	protected abstract T handleThreeByte(final int lowByte, final int midByte, final int highByte);
 
 	/**
 	 * Handle a two-byte command.
 	 * 
-	 * @param lowByte The first byte of the command.
-	 * @param highByte The second byte of the command.
+	 * @param  lowByte  The first byte of the command.
+	 * @param  highByte The second byte of the command.
 	 * 
-	 * @return An object representative of the parameters.
+	 * @return          An object representative of the parameters.
 	 */
 	protected abstract T handleTwoByte(final int lowByte, final int highByte);
 
@@ -120,11 +113,13 @@ public abstract class BytecodeParser<T extends Actor> {
 	 * handling accordingly. Three-byte detection may be achieved via
 	 * dependency injection.
 	 *
-	 * @param endMarker The single-byte sentinel indicating end of data.
+	 * @param  endMarker   The single-byte sentinel indicating end of data.
+	 * 
 	 * @throws IOException in the event of an issue with the input stream.
 	 *
-	 * @return A {@link List} of objects representative of the bytes in the
-	 * input stream.
+	 * @return             A {@link List} of objects representative of the bytes in
+	 *                     the
+	 *                     input stream.
 	 */
 	protected List<@NotNull T> parse(final int endMarker) throws IOException {
 
@@ -151,17 +146,18 @@ public abstract class BytecodeParser<T extends Actor> {
 				log.info(String.format("End marker 0x%x read, %d bytes total", endMarker, bytesRead));
 				break;
 			}
-			
+
 			if (endOfStream) {
 				// This shouldn't happen; we should always read the end marker
-				throw new IOException(
-					String.format(
-						"Malformed data at byte %d; byte array must end with end marker (0x%x).",
-						bytesRead, endMarker)); 
+				throw new IOException(String
+					.format("Malformed data at byte %d; byte array must end with end marker (0x%x).",
+						bytesRead, endMarker));
 			}
 
-			/* If we reach this point, we're good to continue.
-			 * Is this a three-byte command? */
+			/*
+			 * If we reach this point, we're good to continue.
+			 * Is this a three-byte command?
+			 */
 			if (this.isThreeByte(lowByte) == true) {
 				// Yes, it's three bytes
 				midByte = this.source.read();
@@ -170,9 +166,8 @@ public abstract class BytecodeParser<T extends Actor> {
 
 				if ((midByte == endMarker) || (highByte == endMarker)) {
 					// Premature end of data
-					throw new IOException(
-						String.format(
-							"Malformed data at byte %d; read end marker (0x%x) while reading three-byte command",
+					throw new IOException(String
+						.format("Malformed data at byte %d; read end marker (0x%x) while reading three-byte command",
 							bytesRead, endMarker));
 				}
 
@@ -188,22 +183,25 @@ public abstract class BytecodeParser<T extends Actor> {
 				// No, it's two bytes
 				highByte = this.source.read();
 				bytesRead++;
-				if (highByte == endMarker) {throw new IOException(
-					String.format(
-						"Malformed data at byte %d; read end marker (0x%x) while reading two-byte command",
-						bytesRead, endMarker));
+				if (highByte == endMarker) {
+					throw new IOException(String
+						.format("Malformed data at byte %d; read end marker (0x%x) while reading two-byte command",
+							bytesRead, endMarker));
 				}
 
 				if (this.newPageFlagSet(highByte)) {
 					this.page++;
 				}
 
-				/* Do we have a page skip? If so, set the page, and
-				continue the loop without adding an actor. */
+				/*
+				 * Do we have a page skip? If so, set the page, and
+				 * continue the loop without adding an actor.
+				 */
 				if (isPageSkip(lowByte, highByte)) {
 					final int newPage = (highByte & 0b00111111);
 					this.setPage(newPage);
-				} else {
+				}
+				else {
 					T twoByteActor = handleTwoByte(lowByte, highByte);
 					actors.add(twoByteActor);
 				}

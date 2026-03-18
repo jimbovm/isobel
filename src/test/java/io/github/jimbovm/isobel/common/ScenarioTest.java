@@ -1,3 +1,9 @@
+/*
+ * SPDX-License-Identifier: MIT-0
+ *
+ * This file is part of Isobel (https://github.com/jimbovm/isobel).
+ */
+
 package io.github.jimbovm.isobel.common;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -14,16 +20,21 @@ import io.github.jimbovm.isobel.common.Area.Environment;
 
 @TestInstance(Lifecycle.PER_CLASS)
 public class ScenarioTest {
-	
+
 	Scenario scenario;
+
 	Atlas atlas;
 
 	Area overworld1;
+
 	Area underground1;
+
 	Area overworld2;
+
 	Area castle1;
 
-	@BeforeAll void setup() {
+	@BeforeAll
+	void setup() {
 		overworld1 = new Area();
 		overworld2 = new Area();
 		underground1 = new Area();
@@ -39,7 +50,16 @@ public class ScenarioTest {
 
 		scenario = new Scenario();
 
-		byte[] prices = {10, 20, 30, 40, 50, 60, 70, 80};
+		byte[] prices =
+			{
+				10,
+				20,
+				30,
+				40,
+				50,
+				60,
+				70,
+				80 };
 
 		for (int i = 0; i < 8; i++) {
 			World world = new World();
@@ -56,8 +76,9 @@ public class ScenarioTest {
 		}
 	}
 
-	@Test void checkAssembly() {
-		Map<String,String> asm = AssemblyFormat.toAssembly(scenario, atlas);
+	@Test
+	void checkAssembly() {
+		Map<String, String> asm = AssemblyFormat.toAssembly(scenario, atlas);
 
 		System.out.println(asm);
 
