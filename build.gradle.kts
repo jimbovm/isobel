@@ -1,6 +1,7 @@
 plugins {
 	java
 	jacoco
+	signing
 	`maven-publish`
 	id("com.diffplug.spotless") version "8.+"
 	// id("com.gradleup.shadow") version "9.0.0"
@@ -23,15 +24,21 @@ repositories {
 }
 
 publishing {
+	repositories {
+		maven {
+			name = "LocalStaging"
+			url = uri(layout.buildDirectory.dir("staging-deploy"))
+		}
+	}
 	publications {
-		create<MavenPublication>(rootProject.name) {
+		create<MavenPublication>("mavenJava") {
 			from(components["java"])
 			groupId = groupId
 			artifactId = rootProject.name
 			version = version
 			pom {
 				name = "Isobel"
-				description = "A library for working with the level data of 1985's most popular platform game."
+				description = "A Java library for working with the level data of 1985's most popular platform game."
 				url = "https://github.com/jimbovm/isobel"
 				licenses {
 					license {
@@ -88,7 +95,21 @@ dependencies {
 	testImplementation("org.glassfish:jakarta.el:[5.0,)")
 }
 
+repositories {
+	mavenLocal()
+	mavenCentral()		
+}
+
+signing {
+	useGpgCmd()
+	val signingKey = providers.gradleProperty("signingKey").orNull?.replace("\\n", "\n") ?: System.getenv("SIGNING_KEY")?.replace("\\n", "\n")
+	val signingPassword = providers.gradleProperty("signingPassword")
+	sign(publishing.publications["mavenJava"])
+}
+
 java {
+	withSourcesJar()
+	withJavadocJar()
 	toolchain {
 		languageVersion = JavaLanguageVersion.of(17)
 	}
@@ -96,7 +117,6 @@ java {
 
 tasks.withType<Javadoc> {
 	source(sourceSets["main"].allJava)
-	// Generate HTML5 Javadocs
 	(options as StandardJavadocDocletOptions).addBooleanOption("html5", true)
 	(options as StandardJavadocDocletOptions).overview("src/main/java/overview.html")
 }
